@@ -29,6 +29,7 @@ public class App extends JFrame implements ActionListener {
     saveHandler save = new saveHandler();
     clearHandler clear = new clearHandler();
     loadHandler load = new loadHandler();
+    greetHandler greet = new greetHandler();
     int clrk = 0;
     int mngr = 0;
     int cstmr = 0;
@@ -52,11 +53,13 @@ public class App extends JFrame implements ActionListener {
         persons = new ArrayList<>();
         // TODO add implementations for all milestones here
         btnSave.addActionListener(save);
+        btnClear.addActionListener(clear);
+        btnLoad.addActionListener(load);
+        btnSayHi.addActionListener(greet);
         rbClerk.addActionListener(this);
         rbManager.addActionListener(this);
         rbCustomer.addActionListener(this);
-        btnClear.addActionListener(clear);
-        btnLoad.addActionListener(load);
+
         tfName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -149,6 +152,17 @@ public class App extends JFrame implements ActionListener {
 
     static void giveReward(int n) {
 
+    }
+
+    public class greetHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for (Person p: persons
+                 ) {
+                System.out.println(p);
+            }
+        }
     }
 
     public class clearHandler implements ActionListener {

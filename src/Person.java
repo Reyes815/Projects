@@ -50,7 +50,7 @@ public abstract  class Person {
 
         @Override
         public String toString() {
-            return super.toString() + "How may I help you?";
+            return super.toString() + " How may I help you?";
         }
     }
 
@@ -63,7 +63,7 @@ public abstract  class Person {
 
         @Override
         public String toString() {
-            return super.toString();
+            return super.toString() + " How may I help you?";
         }
     }
 
