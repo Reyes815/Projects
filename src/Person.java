@@ -1,4 +1,4 @@
-public class Person {
+public abstract  class Person {
     // TODO implement Person and its subclasses in other Java files
     String name;
     int age;
@@ -14,30 +14,38 @@ public class Person {
         return "Hello,  my  name  is " + this.name + ".";
     }
 
-    public class Customer extends Person{
+    public static class Customer extends Person{
 
         public Customer(String name, int age) {
             super(name, age);
         }
     }
 
-    public class Employee extends Person {
+    public static class Employee extends Person {
         int months_worked;
         double salary;
+
+        public Employee(String name, int age, int months_worked, double salary) {
+            super(name, age);
+            this.months_worked = months_worked;
+            this.salary = salary;
+        }
+
         public Employee(String name, int age) {
             super(name, age);
         }
 
         public double thirteenthmonth(){
-
+            double pay = 0;
+            return pay;
         }
     }
 
-    public class Clerk extends Employee {
+    public static class Clerk extends Employee {
 
 
-        public Clerk(String name, int age) {
-            super(name, age);
+        public Clerk(String name, int age, int months_worked, double salary) {
+            super(name, age, months_worked, salary);
         }
 
         @Override
@@ -46,11 +54,11 @@ public class Person {
         }
     }
 
-    public class Manager extends Employee {
+    public static class Manager extends Employee {
 
 
-        public Manager(String name, int age) {
-            super(name, age);
+        public Manager(String name, int age, int months_worked, double salary) {
+            super(name, age, months_worked, salary);
         }
 
         @Override
