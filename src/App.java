@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class App extends JFrame implements ActionListener {
     private JButton btnLoadPerson;
     private JButton btnReward;
 
-    private List<Person> persons = new ArrayList<>();
+    private List<Person> persons;
     saveHandler save = new saveHandler();
     clearHandler clear = new clearHandler();
     loadHandler load = new loadHandler();
