@@ -28,6 +28,7 @@ public class App extends JFrame implements ActionListener {
     private List<Person> persons = new ArrayList<>();
     saveHandler save = new saveHandler();
     clearHandler clear = new clearHandler();
+    loadHandler load = new loadHandler();
     int clrk = 0;
     int mngr = 0;
     int cstmr = 0;
@@ -55,6 +56,7 @@ public class App extends JFrame implements ActionListener {
         rbManager.addActionListener(this);
         rbCustomer.addActionListener(this);
         btnClear.addActionListener(clear);
+        btnLoad.addActionListener(load);
         tfName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -118,6 +120,22 @@ public class App extends JFrame implements ActionListener {
                 }
             }
         });
+
+        tfLoad.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (Character.isAlphabetic(c)) {
+                    try {
+                        throw new IncorrectInput();
+                    } catch (IncorrectInput ex) {
+                        JOptionPane.showMessageDialog(null,"Incorrect Input");
+                    } finally {
+                        tfLoad.setText("");
+                    }
+                }
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -143,6 +161,36 @@ public class App extends JFrame implements ActionListener {
             tfSalary.setText("");
             tfLoad.setText("");
             taPersons.setText("");
+        }
+    }
+
+    public class loadHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try{
+                int index = Integer.parseInt(tfLoad.getText());
+                Person sample = persons.get(index-1);
+
+                if(sample instanceof Person.Customer){
+                    rbCustomer.setSelected(true);
+                    String str = index+1 + ". Customer - (" + sample.name + ") (" + sample.age + ")";
+                    taPersons.setText(str);
+                }else if(sample instanceof Person.Clerk){
+                    rbClerk.setSelected(true);
+                    String str = index+1 + ". Clerk - (" + sample.name + ") (" + sample.age + ")";
+                    taPersons.setText(str);
+                }else if(sample instanceof Person.Manager){
+                    rbManager.setSelected(true);
+                    String str = index+1 + ". Manager - (" + sample.name + ") (" + sample.age + ")";
+                    taPersons.setText(str);
+                }else throw new IncorrectInput();
+            } catch (NumberFormatException ignored) {
+            } catch (IncorrectInput ex){
+                JOptionPane.showMessageDialog(null,"Incorrect Input");
+            } catch (IndexOutOfBoundsException e4){
+                JOptionPane.showMessageDialog(null, "Index Is Empty");
+            }
         }
     }
 
@@ -213,7 +261,7 @@ public class App extends JFrame implements ActionListener {
                         throw new NegativeInput();
                     }
 
-                    Person p = new Person.Manager(tfName.getText(), age, monthsWorked, salary);
+                    Person p = new Person.Manager(name, age, monthsWorked, salary);
                     persons.add(p);
                     int order = persons.indexOf(p);
                     String str = order+1 + ". Manager - (" + p.name + ") (" + p.age + ")";
@@ -245,12 +293,18 @@ public class App extends JFrame implements ActionListener {
 
         if(e.getSource() == rbClerk) {
             clrk = 1;
+            tfMonths.setEditable(true);
+            tfSalary.setEditable(true);
         }
         if (e.getSource() == rbManager) {
             mngr = 1;
+            tfMonths.setEditable(true);
+            tfSalary.setEditable(true);
         }
         if (e.getSource() == rbCustomer){
             cstmr = 1;
+            tfMonths.setEditable(false);
+            tfSalary.setEditable(false);
         }
 
 
