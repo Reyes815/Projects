@@ -36,7 +36,7 @@ public abstract  class Person {
         }
 
         public double thirteenthmonth(){
-            double pay = 0;
+            double pay = (this.salary * this.months_worked) / 12;
             return pay;
         }
     }

@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +32,19 @@ public class App extends JFrame implements ActionListener {
     clearHandler clear = new clearHandler();
     loadHandler load = new loadHandler();
     greetHandler greet = new greetHandler();
+    rewardHandler reward = new rewardHandler();
     int clrk = 0;
     int mngr = 0;
     int cstmr = 0;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     public static class EmptyTextField extends Exception {
         public EmptyTextField(){
+        }
+    }
+
+    public static class NotAnEmployee extends Exception {
+        public NotAnEmployee(){
         }
     }
 
@@ -49,6 +58,11 @@ public class App extends JFrame implements ActionListener {
         }
     }
 
+    public static class DidNotWork extends Exception {
+        public DidNotWork(){
+        }
+    }
+
     public App() {
         persons = new ArrayList<>();
         // TODO add implementations for all milestones here
@@ -56,6 +70,7 @@ public class App extends JFrame implements ActionListener {
         btnClear.addActionListener(clear);
         btnLoad.addActionListener(load);
         btnSayHi.addActionListener(greet);
+        btnReward.addActionListener(reward);
         rbClerk.addActionListener(this);
         rbManager.addActionListener(this);
         rbCustomer.addActionListener(this);
@@ -150,8 +165,57 @@ public class App extends JFrame implements ActionListener {
         frame.setVisible(true);
     }
 
-    static void giveReward(int n) {
+    public void giveReward(int n) {
+        Person p = persons.get(n);
+        int stop = 0;
 
+        try {
+            if(p instanceof Person.Employee){
+                if(((Person.Employee) p).months_worked == 0){
+                    throw new DidNotWork();
+                }
+            }
+        } catch (DidNotWork e) {
+            JOptionPane.showMessageDialog(null, "Did Not Work");
+            stop = 1;
+        }
+
+        if(stop == 0) {
+            if (p instanceof Person.Employee) {
+                double d = ((Person.Employee) p).thirteenthmonth();
+                JOptionPane.showMessageDialog(null, (df.format(d)));
+            }
+        }
+    }
+
+    public class rewardHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try{
+                int index = Integer.parseInt(tfLoad.getText());
+                Person sample = persons.get(index-1);
+
+                if(sample instanceof Person.Customer){
+                    throw new NotAnEmployee();
+                }else if(sample instanceof Person.Clerk){
+                    rbClerk.setSelected(true);
+                    giveReward(index-1);
+                }else if(sample instanceof Person.Manager){
+                    rbManager.setSelected(true);
+                    giveReward(index-1);
+                }else throw new IncorrectInput();
+            } catch (NumberFormatException ignored) {
+            } catch (IncorrectInput ex){
+                JOptionPane.showMessageDialog(null,"Incorrect Input");
+            } catch (IndexOutOfBoundsException e4){
+                JOptionPane.showMessageDialog(null, "Index Is Empty");
+            } catch (NotAnEmployee e5) {
+                JOptionPane.showMessageDialog(null, "Not An Employee");
+            } finally {
+                tfLoad.setText("");
+            }
+        }
     }
 
     public class greetHandler implements ActionListener {
