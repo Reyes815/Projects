@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class App {
+public class App extends JFrame{
     private JPanel pnlMain;
     private JRadioButton rbCustomer;
     private JRadioButton rbClerk;
@@ -30,6 +30,11 @@ public class App {
 
     public static void main(String[] args) {
         // add here how to make GUI visible
+        App frame = new App();
+        frame.setContentPane(frame.pnlMain);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setSize(700, 500);
+        frame.setVisible(true);
     }
 
     static void giveReward(int n) {
