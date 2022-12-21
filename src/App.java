@@ -27,6 +27,7 @@ public class App extends JFrame implements ActionListener {
 
     private List<Person> persons = new ArrayList<>();
     saveHandler save = new saveHandler();
+    clearHandler clear = new clearHandler();
     int clrk = 0;
     int mngr = 0;
     int cstmr = 0;
@@ -53,10 +54,11 @@ public class App extends JFrame implements ActionListener {
         rbClerk.addActionListener(this);
         rbManager.addActionListener(this);
         rbCustomer.addActionListener(this);
+        btnClear.addActionListener(clear);
         tfName.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                Character c = e.getKeyChar();
+                char c = e.getKeyChar();
                 if (Character.isDigit(c)) {
                     try {
                         throw new IncorrectInput();
@@ -72,7 +74,7 @@ public class App extends JFrame implements ActionListener {
         tfAge.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                Character c = e.getKeyChar();
+                char c = e.getKeyChar();
                 if (Character.isAlphabetic(c)) {
                     try {
                         throw new IncorrectInput();
@@ -88,7 +90,7 @@ public class App extends JFrame implements ActionListener {
         tfMonths.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                Character c = e.getKeyChar();
+                char c = e.getKeyChar();
                 if (Character.isAlphabetic(c)) {
                     try {
                         throw new IncorrectInput();
@@ -104,7 +106,7 @@ public class App extends JFrame implements ActionListener {
         tfSalary.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                Character c = e.getKeyChar();
+                char c = e.getKeyChar();
                 if (Character.isAlphabetic(c)) {
                     try {
                         throw new IncorrectInput();
@@ -129,6 +131,19 @@ public class App extends JFrame implements ActionListener {
 
     static void giveReward(int n) {
 
+    }
+
+    public class clearHandler implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tfName.setText("");
+            tfAge.setText("");
+            tfMonths.setText("");
+            tfSalary.setText("");
+            tfLoad.setText("");
+            taPersons.setText("");
+        }
     }
 
     public class saveHandler implements ActionListener {
